@@ -7,7 +7,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-  /* Reset */
+  /* Reset and base */
   * {
     box-sizing: border-box;
   }
@@ -15,126 +15,107 @@
     margin: 0; padding: 0;
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
-    /* Background gradient animation */
-    background: linear-gradient(270deg, #121212, #1a1a1a, #121212, #1a1a1a);
-    background-size: 800% 800%;
-    animation: backgroundShift 30s ease infinite;
+    background-color: #121212; /* dark grey background */
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  @keyframes backgroundShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
-
-  /* Panel container */
+  /* Login panel container */
   .login-container {
-    background-color: #222222; /* solid dark grey panel background */
-    padding: 50px 60px;
+    background-color: #222222; /* solid dark grey */
+    padding: 60px 70px;
     border-radius: 20px;
-    box-shadow:
-      0 0 25px 3px #0cc8d8cc, /* turquoise glow around panel */
-      0 15px 50px rgba(0,0,0,0.9);
-    width: 400px;
-    max-width: 90vw;
+    width: 440px;
+    box-shadow: 0 0 30px 5px #30d5c8cc; /* turquoise glow around panel */
     color: #ddd;
     text-align: center;
     user-select: none;
-    position: relative;
-    z-index: 10;
   }
 
-  /* Company name - turquoise text */
+  /* Company name */
   .company-name {
     font-weight: 700;
-    font-size: 3rem;
-    letter-spacing: 5px;
-    margin-bottom: 40px;
-    color: #0cc8d8;
-    text-shadow: 0 0 15px #0cc8d8bb;
+    font-size: 3.3rem;
+    margin-bottom: 48px;
+    color: #30d5c8; /* bright turquoise */
+    letter-spacing: 6px;
+    text-shadow: 0 0 10px #30d5c8aa;
   }
 
-  /* Form styling */
+  /* Form */
   form {
     display: flex;
     flex-direction: column;
-    gap: 26px;
+    gap: 28px;
   }
 
   label {
-    text-align: left;
     font-weight: 600;
-    font-size: 1.1rem;
-    color: #aaa;
+    font-size: 1.2rem;
+    color: #bbb;
     user-select: text;
+    text-align: left;
   }
 
   input[type="text"],
   input[type="password"] {
     padding: 16px 22px;
-    border-radius: 14px;
+    border-radius: 12px;
     border: none;
     font-size: 1.2rem;
-    background: #333333;
+    background-color: #2c2c2c; /* dark input background */
     color: #eee;
     outline: none;
-    box-shadow: inset 0 0 10px #000000aa;
-    transition: box-shadow 0.4s ease, background-color 0.4s ease;
+    box-shadow: inset 0 0 6px #000000cc;
     font-weight: 500;
+    transition: background-color 0.3s ease;
   }
 
-  /* On focus, subtle turquoise glow on inputs */
+  /* No glow on focus, just slight background lighten */
   input[type="text"]:focus,
   input[type="password"]:focus {
-    background: #2a2a2a;
-    box-shadow: 0 0 14px 3px #0cc8d8cc;
-    color: #e0f7f6;
+    background-color: #383838;
   }
 
-  /* Button style - turquoise gradient */
+  /* Button */
   button {
-    margin-top: 8px;
+    margin-top: 4px;
     padding: 18px 0;
-    background: linear-gradient(135deg, #0cc8d8, #059ba0);
+    background-color: #30d5c8;
     border: none;
-    border-radius: 20px;
+    border-radius: 24px;
     font-weight: 700;
     font-size: 1.5rem;
-    color: #e0f7f6;
+    color: #121212;
     cursor: pointer;
-    box-shadow: 0 12px 40px #059ba088;
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 8px 22px #30d5c8aa;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     user-select: none;
-    position: relative;
-    overflow: hidden;
   }
 
   button:hover {
-    background: linear-gradient(135deg, #14d0e1, #09b1a3);
-    box-shadow: 0 18px 50px #09b1a3cc;
-    transform: scale(1.07);
+    background-color: #2ac4b9;
+    box-shadow: 0 14px 38px #2ac4b9bb;
+    transform: scale(1.05);
   }
+
   button:active {
     transform: scale(0.97);
-    box-shadow: 0 9px 30px #05756a88;
+    box-shadow: 0 6px 16px #23988b99;
   }
 
   /* Error message */
   .error-message {
-    height: 20px;
-    margin-top: -8px;
+    height: 22px;
+    margin-top: -6px;
     margin-bottom: 10px;
-    color: #ff6b6b;
+    color: #ff5f5f;
     font-size: 1rem;
     font-weight: 600;
-    min-height: 20px;
+    min-height: 22px;
     user-select: none;
   }
-
 </style>
 </head>
 <body>
@@ -173,7 +154,7 @@
     // Dummy validation: only admin/admin123 allowed
     if(username === 'admin' && password === 'admin123'){
       alert('Login successful! Redirecting to home...');
-      window.location.href = '/Velora/Home'; // Adjust this path as needed
+      window.location.href = '/Velora/Home'; // Change to your home URL
     } else {
       errorDiv.textContent = 'Invalid username or password.';
     }
