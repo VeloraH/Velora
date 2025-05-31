@@ -3,220 +3,146 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Login / Signup</title>
+<title>Login</title>
 <style>
+  /* Reset */
   * {
     box-sizing: border-box;
   }
   body, html {
+    margin: 0; padding: 0;
     height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #222;
-    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .container {
-    background: #333;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #000;
+
+  .login-container {
+    background: #222;
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     width: 350px;
-    padding: 30px 40px;
+    max-width: 90vw;
+    color: #eee;
   }
-  h2 {
-    margin: 0 0 20px 0;
+
+  h1 {
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 2.2rem;
     text-align: center;
+    letter-spacing: 1px;
   }
+
   form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
   }
+
   label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  input[type="text"], input[type="password"] {
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
+    font-weight: 600;
     font-size: 1rem;
   }
-  button {
-    padding: 12px;
+
+  input[type="text"], input[type="password"] {
+    padding: 12px 15px;
+    border-radius: 8px;
     border: none;
-    border-radius: 6px;
-    background: #0066ff;
-    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    box-shadow: 0 0 6px 3px #667eea;
+  }
+
+  button {
+    padding: 14px;
+    background: #667eea;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
     font-size: 1.1rem;
+    color: white;
     cursor: pointer;
     transition: background 0.3s ease;
   }
+
   button:hover {
-    background: #0051cc;
+    background: #5a6cd8;
   }
-  .toggle-link {
-    margin-top: 15px;
-    text-align: center;
-    cursor: pointer;
-    color: #06f;
-    text-decoration: underline;
-  }
+
   .error {
-    color: #ff6666;
+    color: #ff6b6b;
     font-size: 0.9rem;
+    height: 18px; /* reserve space even when empty */
     margin-top: -10px;
-    margin-bottom: 10px;
-  }
-  /* Smooth fade animations for switching forms */
-  .fade {
-    animation: fadeIn 0.4s ease forwards;
-  }
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
   }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h2 id="form-title">Login</h2>
-
-  <form id="login-form" class="fade">
-    <label for="login-username">Username</label>
-    <input type="text" id="login-username" required autocomplete="username" />
-    <label for="login-password">Password</label>
-    <input type="password" id="login-password" required autocomplete="current-password" />
-    <div id="login-error" class="error"></div>
-    <button type="submit">Login</button>
-    <div class="toggle-link" id="show-signup">Don't have an account? Sign up</div>
-  </form>
-
-  <form id="signup-form" class="fade" style="display:none;">
-    <label for="signup-username">Choose Username</label>
-    <input type="text" id="signup-username" required autocomplete="username" />
-    <label for="signup-password">Choose Password</label>
-    <input type="password" id="signup-password" required autocomplete="new-password" />
-    <div id="signup-error" class="error"></div>
-    <button type="submit">Sign Up</button>
-    <div class="toggle-link" id="show-login">Already have an account? Login</div>
+<div class="login-container">
+  <h1>Login</h1>
+  <form id="login-form" autocomplete="off" spellcheck="false" novalidate>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required autocomplete="username" />
+    
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required autocomplete="current-password" />
+    
+    <div id="error" class="error"></div>
+    
+    <button type="submit">Log In</button>
   </form>
 </div>
 
 <script>
-  // Admin credentials
   const ADMIN_USERNAME = 'admin';
   const ADMIN_PASSWORD = 'admin123';
 
-  // Cached DOM
-  const loginForm = document.getElementById('login-form');
-  const signupForm = document.getElementById('signup-form');
-  const showSignupLink = document.getElementById('show-signup');
-  const showLoginLink = document.getElementById('show-login');
-  const formTitle = document.getElementById('form-title');
+  const form = document.getElementById('login-form');
+  const errorDiv = document.getElementById('error');
 
-  const loginError = document.getElementById('login-error');
-  const signupError = document.getElementById('signup-error');
-
-  // Show signup form
-  showSignupLink.addEventListener('click', () => {
-    loginForm.style.display = 'none';
-    signupForm.style.display = 'flex';
-    formTitle.textContent = 'Sign Up';
-    loginError.textContent = '';
-    signupError.textContent = '';
-  });
-
-  // Show login form
-  showLoginLink.addEventListener('click', () => {
-    signupForm.style.display = 'none';
-    loginForm.style.display = 'flex';
-    formTitle.textContent = 'Login';
-    loginError.textContent = '';
-    signupError.textContent = '';
-  });
-
-  // Helper: get users from localStorage (object with username keys)
-  function getUsers() {
-    const users = localStorage.getItem('veloraUsers');
-    return users ? JSON.parse(users) : {};
-  }
-
-  // Helper: save users to localStorage
-  function saveUsers(users) {
-    localStorage.setItem('veloraUsers', JSON.stringify(users));
-  }
-
-  // Signup form submit
-  signupForm.addEventListener('submit', e => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    signupError.textContent = '';
-    const username = document.getElementById('signup-username').value.trim();
-    const password = document.getElementById('signup-password').value.trim();
+    errorDiv.textContent = '';
 
-    if (username === ADMIN_USERNAME) {
-      signupError.textContent = 'This username is reserved.';
-      return;
-    }
-    if (username.length < 3) {
-      signupError.textContent = 'Username must be at least 3 characters.';
-      return;
-    }
-    if (password.length < 6) {
-      signupError.textContent = 'Password must be at least 6 characters.';
-      return;
-    }
-
-    let users = getUsers();
-    if (users[username]) {
-      signupError.textContent = 'Username already exists.';
-      return;
-    }
-
-    // Save new user
-    users[username] = { password };
-    saveUsers(users);
-
-    alert('Signup successful! You can now log in.');
-    signupForm.reset();
-    showLoginLink.click();
-  });
-
-  // Login form submit
-  loginForm.addEventListener('submit', e => {
-    e.preventDefault();
-    loginError.textContent = '';
-    const username = document.getElementById('login-username').value.trim();
-    const password = document.getElementById('login-password').value.trim();
+    const username = form.username.value.trim();
+    const password = form.password.value.trim();
 
     if (!username || !password) {
-      loginError.textContent = 'Please enter username and password.';
+      errorDiv.textContent = 'Please enter username and password.';
       return;
     }
 
+    // Admin login check
     if (username === ADMIN_USERNAME) {
-      // Check admin password
       if (password === ADMIN_PASSWORD) {
-        // Save user as admin
         localStorage.setItem('veloraUser', JSON.stringify({ username, role: 'admin' }));
+        alert('Admin login successful!');
         window.location.href = '/Velora/Admin/';
-        return;
       } else {
-        loginError.textContent = 'Incorrect admin password.';
-        return;
+        errorDiv.textContent = 'Incorrect admin password.';
       }
+      return;
     }
 
-    // Check normal users
-    const users = getUsers();
+    // Check normal users saved in localStorage
+    const users = JSON.parse(localStorage.getItem('veloraUsers') || '{}');
+
     if (users[username] && users[username].password === password) {
       localStorage.setItem('veloraUser', JSON.stringify({ username, role: 'user' }));
+      alert('Login successful!');
       window.location.href = '/Velora/Dashboard/';
     } else {
-      loginError.textContent = 'Incorrect username or password.';
+      errorDiv.textContent = 'Invalid username or password.';
     }
   });
 </script>
