@@ -1,3 +1,18 @@
+<script>
+  const user = localStorage.getItem('veloraUser');
+  if (!user) {
+    // Not logged in, redirect to login
+    window.location.href = '/Velora/Login/';
+  } else {
+    const userObj = JSON.parse(user);
+    // Optional: only allow admin to access Admin page
+    if (window.location.pathname.toLowerCase().includes('/admin') && userObj.role !== 'admin') {
+      alert('Access denied: Admins only');
+      window.location.href = '/Velora/Login/';
+    }
+  }
+</script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
