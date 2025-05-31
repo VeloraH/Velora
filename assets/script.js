@@ -1,35 +1,17 @@
-// Fake user database (admin can add users)
-let users = JSON.parse(localStorage.getItem('velora_users')) || {
-  "admin": "admin123" // default admin
-};
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-function login(username, password, redirectOnSuccess) {
-  if (users[username] && users[username] === password) {
-    localStorage.setItem("velora_loggedIn", username);
-    window.location.href = redirectOnSuccess;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+
+  // Demo validation: allow only 'admin' with password 'password123'
+  if ((username === 'admin' && password === 'password123') ||
+      (username === 'user' && password === 'userpass')) {
+    // Redirect to dashboard or home page after successful login
+    window.location.href = '/Velora/Home/';
   } else {
-    document.getElementById("error").textContent = "Invalid credentials.";
+    errorMsg.style.display = 'block';
+    errorMsg.textContent = 'Invalid username or password.';
   }
-}
-
-function protectPage() {
-  const user = localStorage.getItem("velora_loggedIn");
-  if (!user) {
-    window.location.href = "/Velora/Login/";
-  }
-}
-
-function logout() {
-  localStorage.removeItem("velora_loggedIn");
-  window.location.href = "/Velora/Login/";
-}
-
-function createUser(newUser, newPass) {
-  if (newUser in users) {
-    alert("User already exists.");
-  } else {
-    users[newUser] = newPass;
-    localStorage.setItem("velora_users", JSON.stringify(users));
-    alert("User created successfully.");
-  }
-}
+});
