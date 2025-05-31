@@ -7,7 +7,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-  /* Reset and base styles */
+  /* Reset */
   * {
     box-sizing: border-box;
   }
@@ -15,36 +15,49 @@
     margin: 0; padding: 0;
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #121212, #1e1e1e);
+    overflow: hidden;
+    background: linear-gradient(-45deg, #121212, #1a1a1a, #121212, #1a1a1a);
+    background-size: 400% 400%;
+    animation: backgroundShift 20s ease infinite;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  /* Container panel */
+  @keyframes backgroundShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+
+  /* Panel container */
   .login-container {
-    background: rgba(20, 50, 60, 0.85); /* dark turquoise transparent */
-    padding: 48px 60px;
+    background-color: #222222; /* solid dark grey */
+    padding: 50px 60px;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 80, 100, 0.6);
+    box-shadow:
+      0 0 20px 2px #0cc8d8aa, /* subtle turquoise glow */
+      0 15px 40px rgba(0,0,0,0.8);
     width: 400px;
     max-width: 90vw;
-    color: #a0dfe8;
+    color: #ddd;
     text-align: center;
     user-select: none;
+    position: relative;
+    z-index: 10;
   }
 
-  /* Company name */
+  /* Company name - turquoise text */
   .company-name {
     font-weight: 700;
-    font-size: 3.2rem;
-    letter-spacing: 6px;
-    margin-bottom: 48px;
-    color: #43d1e5;
-    text-shadow: 0 0 15px #43d1e5cc;
+    font-size: 3rem;
+    letter-spacing: 5px;
+    margin-bottom: 40px;
+    color: #0cc8d8;
+    text-shadow: 0 0 15px #0cc8d8bb;
   }
 
-  /* Form layout */
+  /* Form styling */
   form {
     display: flex;
     flex-direction: column;
@@ -55,43 +68,43 @@
     text-align: left;
     font-weight: 600;
     font-size: 1.1rem;
-    color: #78cbd1;
+    color: #aaa;
     user-select: text;
   }
 
   input[type="text"],
   input[type="password"] {
     padding: 16px 22px;
-    border-radius: 16px;
+    border-radius: 14px;
     border: none;
     font-size: 1.2rem;
-    background: #164148;
-    color: #a0dfe8;
+    background: #333333;
+    color: #eee;
     outline: none;
-    box-shadow: inset 0 0 12px #0a2c30cc;
+    box-shadow: inset 0 0 10px #0cc8d8aa;
     transition: box-shadow 0.4s ease, background-color 0.4s ease;
     font-weight: 500;
   }
 
   input[type="text"]:focus,
   input[type="password"]:focus {
-    background: #206f7f;
-    box-shadow: 0 0 18px 4px #43d1e5cc;
+    background: #0cc8d833;
+    box-shadow: 0 0 18px 4px #0cc8d8cc;
     color: #e0f7f6;
   }
 
-  /* Button style with turquoise gradient only */
+  /* Button style - turquoise gradient */
   button {
     margin-top: 8px;
     padding: 18px 0;
-    background: linear-gradient(135deg, #3cc8d8, #069bb0);
+    background: linear-gradient(135deg, #0cc8d8, #059ba0);
     border: none;
     border-radius: 20px;
     font-weight: 700;
     font-size: 1.5rem;
     color: #e0f7f6;
     cursor: pointer;
-    box-shadow: 0 12px 40px #069bb080;
+    box-shadow: 0 12px 40px #059ba088;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     user-select: none;
     position: relative;
@@ -99,16 +112,16 @@
   }
 
   button:hover {
-    background: linear-gradient(135deg, #50d1e2, #13a9bf);
-    box-shadow: 0 18px 50px #13a9bfcc;
+    background: linear-gradient(135deg, #14d0e1, #09b1a3);
+    box-shadow: 0 18px 50px #09b1a3cc;
     transform: scale(1.07);
   }
   button:active {
     transform: scale(0.97);
-    box-shadow: 0 9px 30px #067b8288;
+    box-shadow: 0 9px 30px #05756a88;
   }
 
-  /* Error message style */
+  /* Error message */
   .error-message {
     height: 20px;
     margin-top: -8px;
@@ -119,6 +132,7 @@
     min-height: 20px;
     user-select: none;
   }
+
 </style>
 </head>
 <body>
@@ -139,9 +153,6 @@
 </div>
 
 <script>
-  // Click sound on button (optional, replace or remove if you want)
-  const clickSound = new Audio('https://assets.codepen.io/3/click.mp3');
-  
   const form = document.getElementById('loginForm');
   const errorDiv = document.getElementById('error');
 
@@ -157,11 +168,13 @@
       return;
     }
 
-    clickSound.play().catch(() => {});
-
-    // Placeholder for login validation
-    errorDiv.textContent = '';
-    alert(`Logged in as: ${username}`);
+    // TODO: Implement secure login validation here, for now just dummy check
+    if(username === 'admin' && password === 'admin123'){
+      alert('Login successful! Redirecting to home...');
+      window.location.href = '/Velora/Home'; // Adjust this path as needed
+    } else {
+      errorDiv.textContent = 'Invalid username or password.';
+    }
   });
 </script>
 
