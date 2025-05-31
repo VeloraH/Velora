@@ -3,181 +3,221 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Velora Holdings - Login</title>
+<title>Login / Signup</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-  /* Reset */
   * {
     box-sizing: border-box;
   }
   body, html {
-    margin: 0; padding: 0;
     height: 100%;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(45deg, #121212, #1e1e1e, #2a2a2a, #1e1e1e);
-    background-size: 600% 600%;
-    animation: backgroundShift 20s ease infinite;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #222;
+    color: #eee;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
-  @keyframes backgroundShift {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
+  .container {
+    background: #333;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000;
+    width: 350px;
+    padding: 30px 40px;
   }
-
-  .login-box {
-    background: #222228cc;
-    padding: 50px 60px;
-    border-radius: 20px;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
-    width: 400px;
-    max-width: 90vw;
-    color: #e0e0e0;
+  h2 {
+    margin: 0 0 20px 0;
     text-align: center;
-    user-select: none;
   }
-
-  .company-title {
-    font-weight: 800;
-    font-size: 2.9rem;
-    letter-spacing: 3px;
-    margin-bottom: 35px;
-    color: #53c0e8;
-    text-shadow: 0 0 10px #53c0e8aa;
-    user-select: text;
-  }
-
   form {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 15px;
   }
-
   label {
-    text-align: left;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #9ecce7dd;
-    user-select: text;
+    font-weight: bold;
+    margin-bottom: 5px;
   }
-
   input[type="text"], input[type="password"] {
-    padding: 16px 22px;
-    border-radius: 15px;
+    padding: 10px;
+    border-radius: 5px;
     border: none;
-    font-size: 1.15rem;
-    background: #2a2a34;
-    color: #d4d9e4;
-    outline: none;
-    box-shadow: inset 0 0 10px #000000cc;
-    transition: box-shadow 0.4s ease, background-color 0.4s ease;
-    font-weight: 500;
+    font-size: 1rem;
   }
-
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    background: #396e9a;
-    box-shadow: 0 0 16px 2px #53c0e8cc;
-  }
-
   button {
-    margin-top: 5px;
-    padding: 18px 0;
-    background: linear-gradient(135deg, #48b3e0, #176ea7);
+    padding: 12px;
     border: none;
-    border-radius: 18px;
-    font-weight: 700;
-    font-size: 1.4rem;
-    color: #d7f1ff;
+    border-radius: 6px;
+    background: #0066ff;
+    color: white;
+    font-size: 1.1rem;
     cursor: pointer;
-    box-shadow: 0 7px 25px #2c7bb5cc;
-    transition: all 0.35s cubic-bezier(.25,.8,.25,1);
-    user-select: none;
-    position: relative;
-    overflow: hidden;
+    transition: background 0.3s ease;
   }
-
   button:hover {
-    background: linear-gradient(135deg, #6cbcf4, #2886ce);
-    box-shadow: 0 10px 35px #3a8adaee;
-    transform: translateY(-4px);
+    background: #0051cc;
   }
-  button:active {
-    transform: translateY(1.5px);
-    box-shadow: 0 5px 18px #185e96bb;
+  .toggle-link {
+    margin-top: 15px;
+    text-align: center;
+    cursor: pointer;
+    color: #06f;
+    text-decoration: underline;
   }
-
-  .error-message {
-    height: 22px;
+  .error {
+    color: #ff6666;
+    font-size: 0.9rem;
     margin-top: -10px;
     margin-bottom: 10px;
-    color: #ff6b6b;
-    font-size: 1rem;
-    font-weight: 600;
-    min-height: 22px;
-    user-select: none;
   }
-
+  /* Smooth fade animations for switching forms */
+  .fade {
+    animation: fadeIn 0.4s ease forwards;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
 </style>
 </head>
 <body>
 
-<div class="login-box" role="main" aria-label="Login form">
-  <div class="company-title">Velora Holdings</div>
-  <form id="loginForm" autocomplete="off" spellcheck="false" novalidate>
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" autocomplete="username" required aria-required="true" aria-describedby="error" />
-    
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" autocomplete="current-password" required aria-required="true" />
-    
-    <div id="error" class="error-message" aria-live="polite"></div>
-    
-    <button type="submit" aria-label="Log in to Velora Holdings">Log In</button>
+<div class="container">
+  <h2 id="form-title">Login</h2>
+
+  <form id="login-form" class="fade">
+    <label for="login-username">Username</label>
+    <input type="text" id="login-username" required autocomplete="username" />
+    <label for="login-password">Password</label>
+    <input type="password" id="login-password" required autocomplete="current-password" />
+    <div id="login-error" class="error"></div>
+    <button type="submit">Login</button>
+    <div class="toggle-link" id="show-signup">Don't have an account? Sign up</div>
+  </form>
+
+  <form id="signup-form" class="fade" style="display:none;">
+    <label for="signup-username">Choose Username</label>
+    <input type="text" id="signup-username" required autocomplete="username" />
+    <label for="signup-password">Choose Password</label>
+    <input type="password" id="signup-password" required autocomplete="new-password" />
+    <div id="signup-error" class="error"></div>
+    <button type="submit">Sign Up</button>
+    <div class="toggle-link" id="show-login">Already have an account? Login</div>
   </form>
 </div>
 
 <script>
-  // Preload click sound
-  const clickSound = new Audio('https://assets.codepen.io/3/click.mp3');
-
+  // Admin credentials
   const ADMIN_USERNAME = 'admin';
   const ADMIN_PASSWORD = 'admin123';
 
-  const form = document.getElementById('loginForm');
-  const errorDiv = document.getElementById('error');
+  // Cached DOM
+  const loginForm = document.getElementById('login-form');
+  const signupForm = document.getElementById('signup-form');
+  const showSignupLink = document.getElementById('show-signup');
+  const showLoginLink = document.getElementById('show-login');
+  const formTitle = document.getElementById('form-title');
 
-  form.addEventListener('submit', e => {
+  const loginError = document.getElementById('login-error');
+  const signupError = document.getElementById('signup-error');
+
+  // Show signup form
+  showSignupLink.addEventListener('click', () => {
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'flex';
+    formTitle.textContent = 'Sign Up';
+    loginError.textContent = '';
+    signupError.textContent = '';
+  });
+
+  // Show login form
+  showLoginLink.addEventListener('click', () => {
+    signupForm.style.display = 'none';
+    loginForm.style.display = 'flex';
+    formTitle.textContent = 'Login';
+    loginError.textContent = '';
+    signupError.textContent = '';
+  });
+
+  // Helper: get users from localStorage (object with username keys)
+  function getUsers() {
+    const users = localStorage.getItem('veloraUsers');
+    return users ? JSON.parse(users) : {};
+  }
+
+  // Helper: save users to localStorage
+  function saveUsers(users) {
+    localStorage.setItem('veloraUsers', JSON.stringify(users));
+  }
+
+  // Signup form submit
+  signupForm.addEventListener('submit', e => {
     e.preventDefault();
-    errorDiv.textContent = '';
-
-    const username = form.username.value.trim();
-    const password = form.password.value.trim();
-
-    if (!username || !password) {
-      errorDiv.textContent = 'Please enter both username and password.';
-      return;
-    }
-
-    clickSound.play().catch(() => {});
+    signupError.textContent = '';
+    const username = document.getElementById('signup-username').value.trim();
+    const password = document.getElementById('signup-password').value.trim();
 
     if (username === ADMIN_USERNAME) {
-      if (password === ADMIN_PASSWORD) {
-        localStorage.setItem('veloraUser', JSON.stringify({ username, role: 'admin' }));
-        alert('Admin login successful!');
-        window.location.href = '/Velora/Admin/';
-      } else {
-        errorDiv.textContent = 'Incorrect admin password.';
-      }
+      signupError.textContent = 'This username is reserved.';
+      return;
+    }
+    if (username.length < 3) {
+      signupError.textContent = 'Username must be at least 3 characters.';
+      return;
+    }
+    if (password.length < 6) {
+      signupError.textContent = 'Password must be at least 6 characters.';
       return;
     }
 
-    // For now just show error on any non-admin login
-    errorDiv.textContent = 'Invalid username or password.';
+    let users = getUsers();
+    if (users[username]) {
+      signupError.textContent = 'Username already exists.';
+      return;
+    }
+
+    // Save new user
+    users[username] = { password };
+    saveUsers(users);
+
+    alert('Signup successful! You can now log in.');
+    signupForm.reset();
+    showLoginLink.click();
+  });
+
+  // Login form submit
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    loginError.textContent = '';
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+
+    if (!username || !password) {
+      loginError.textContent = 'Please enter username and password.';
+      return;
+    }
+
+    if (username === ADMIN_USERNAME) {
+      // Check admin password
+      if (password === ADMIN_PASSWORD) {
+        // Save user as admin
+        localStorage.setItem('veloraUser', JSON.stringify({ username, role: 'admin' }));
+        window.location.href = '/Velora/Admin/';
+        return;
+      } else {
+        loginError.textContent = 'Incorrect admin password.';
+        return;
+      }
+    }
+
+    // Check normal users
+    const users = getUsers();
+    if (users[username] && users[username].password === password) {
+      localStorage.setItem('veloraUser', JSON.stringify({ username, role: 'user' }));
+      window.location.href = '/Velora/Dashboard/';
+    } else {
+      loginError.textContent = 'Incorrect username or password.';
+    }
   });
 </script>
 
