@@ -1,277 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Velora Holdings - Login</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-  /* Reset and base */
-  * {
-    box-sizing: border-box;
-  }
-  body, html {
-    margin: 0; padding: 0;
-    height: 100%;
-    font-family: 'Poppins', sans-serif;
-    background-color: #121212; /* solid dark grey */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* subtle diagonal stripes overlay - very faint */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: repeating-linear-gradient(
-      45deg,
-      #1b1b1b 0,
-      #1b1b1b 1px,
-      #121212 1px,
-      #121212 5px
-    );
-    opacity: 0.07;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Container */
-  .login-container {
-    background-color: #222222; /* dark panel */
-    padding: 60px 70px;
-    border-radius: 20px;
-    width: 440px;
-    box-shadow: 0 0 30px 5px #30d5c8cc; /* turquoise glow */
-    color: #ddd;
-    text-align: center;
-    user-select: none;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Company name */
-  .company-name {
-    font-weight: 700;
-    font-size: 3.3rem;
-    margin-bottom: 48px;
-    color: #30d5c8; /* turquoise */
-    letter-spacing: 6px;
-    text-shadow: 0 0 10px #30d5c8aa;
-    user-select: text;
-  }
-
-  /* Form */
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    position: relative;
-  }
-
-  /* Floating label wrapper */
-  .input-group {
-    position: relative;
-  }
-
-  /* Inputs */
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    font-size: 1.2rem;
-    padding: 12px 12px 12px 12px;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #444444;
-    color: #eee;
-    font-weight: 500;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-
-  /* Underline animation */
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    border-color: #30d5c8;
-  }
-
-  /* Hide default placeholder */
-  input::placeholder {
-    color: transparent;
-  }
-
-  /* Floating label */
-  label {
-    position: absolute;
-    left: 12px;
-    top: 14px;
-    font-size: 1.2rem;
-    color: #bbb;
-    font-weight: 600;
-    pointer-events: none;
-    user-select: none;
-    transition: all 0.3s ease;
-  }
-
-  /* Move label up when focused or has text */
-  input:focus + label,
-  input:not(:placeholder-shown) + label {
-    top: -10px;
-    font-size: 0.85rem;
-    color: #30d5c8;
-    font-weight: 700;
-  }
-
-  /* Button */
-  button {
-    margin-top: 4px;
-    padding: 18px 0;
-    background-color: #30d5c8;
-    border: none;
-    border-radius: 24px;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #121212;
-    cursor: pointer;
-    box-shadow: 0 8px 22px #30d5c8aa;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-    user-select: none;
-    position: relative;
-    overflow: hidden;
-  }
-
-  button:hover {
-    background-color: #2ac4b9;
-    box-shadow: 0 14px 38px #2ac4b9bb;
-    transform: scale(1.05);
-  }
-
-  button:active {
-    transform: scale(0.97);
-    box-shadow: 0 6px 16px #23988b99;
-  }
-
-  /* Loading spinner inside button */
-  .loading-spinner {
-    border: 3px solid #30d5c8cc;
-    border-top: 3px solid transparent;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
-    display: none;
-  }
-
-  button.loading .loading-spinner {
-    display: block;
-    color: #30d5c8;
-  }
-
-  button.loading span {
-    visibility: hidden;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg);}
-    100% { transform: rotate(360deg);}
-  }
-
-  /* Error message */
-  .error-message {
-    height: 22px;
-    margin-top: -12px;
-    margin-bottom: 10px;
-    color: #ff5f5f;
-    font-size: 1rem;
-    font-weight: 600;
-    min-height: 22px;
-    user-select: none;
-  }
-
-  /* Footer */
-  .footer {
-    position: fixed;
-    bottom: 12px;
-    width: 100%;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #555;
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: 1.5px;
-    user-select: none;
-    z-index: 2;
-  }
-</style>
-</head>
-<body>
-
-<div class="login-container" role="main" aria-label="Login form">
-  <div class="company-name">Velora Holdings</div>
-  <form id="loginForm" autocomplete="off" spellcheck="false" novalidate>
-    <div class="input-group">
-      <input type="text" id="username" name="username" autocomplete="username" required aria-required="true" placeholder=" " aria-describedby="error" />
-      <label for="username">Username</label>
-    </div>
-
-    <div class="input-group">
-      <input type="password" id="password" name="password" autocomplete="current-password" required aria-required="true" placeholder=" " />
-      <label for="password">Password</label>
-    </div>
-
-    <div id="error" class="error-message" aria-live="polite"></div>
-
-    <button type="submit" aria-label="Log in to Velora Holdings">
-      <span>Log In</span>
-      <div class="loading-spinner"></div>
-    </button>
-  </form>
-</div>
-
-<div class="footer">Powered by Velora Holdings</div>
-
-<script>
-  const form = document.getElementById('loginForm');
-  const errorDiv = document.getElementById('error');
-  const button = form.querySelector('button');
-  const spinner = button.querySelector('.loading-spinner');
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    errorDiv.textContent = '';
-
-    const username = form.username.value.trim();
-    const password = form.password.value.trim();
-
-    if (!username || !password) {
-      errorDiv.textContent = 'Please enter both username and password.';
-      return;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Velora Holdings - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #121212; /* solid dark grey background */
+      font-family: 'Poppins', sans-serif;
+      color: #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
     }
 
-    // Start loading spinner
-    button.classList.add('loading');
-    button.disabled = true;
+    .login-container {
+      position: relative;
+      background: #1e1e1e;
+      border-radius: 20px;
+      padding: 50px 40px 40px 40px;
+      width: 360px;
+      box-shadow:
+        0 0 30px 5px #30d5c8cc,
+        0 8px 20px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Top gradient highlight line */
+    .login-container::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 6px;
+      background: linear-gradient(90deg, #2fc4b9, #30d5c8, #2fc4b9);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
 
-    // Fake async login delay
-    setTimeout(() => {
-      button.classList.remove('loading');
-      button.disabled = false;
+    .company-name {
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: #30d5c8;
+      margin-bottom: 40px;
+      letter-spacing: 3px;
+      text-shadow:
+        0 0 15px #30d5c8cc,
+        0 0 30px #2fc4b9bb;
+      user-select: text;
+    }
 
-      // Dummy validation: only admin/admin123 allowed
-      if(username === 'admin' && password === 'admin123'){
-        alert('Login successful! Redirecting to home...');
-        window.location.href = '/Velora/Home'; // Change this to your actual home URL
-      } else {
-        errorDiv.textContent = 'Invalid username or password.';
-      }
-    }, 1300);
-  });
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 36px;
+    }
+
+    /* Floating labels */
+    label {
+      position: absolute;
+      top: 14px;
+      left: 15px;
+      color: #7f8c8d;
+      font-weight: 500;
+      pointer-events: none;
+      transition: 0.3s ease all;
+      user-select: none;
+    }
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 10px;
+      font-size: 0.8rem;
+      color: #30d5c8;
+      background: #1e1e1e;
+      padding: 0 5px;
+      border-radius: 3px;
+      user-select: none;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #555;
+      color: #ccc;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s ease;
+      user-select: text;
+    }
+    input:focus {
+      border-color: #30d5c8;
+    }
+
+    /* Animated underline */
+    input {
+      position: relative;
+      z-index: 1;
+    }
+    .input-group::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 100%;
+      background: #30d5c8;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+      border-radius: 2px;
+      z-index: 0;
+    }
+    input:focus ~ .input-group::after,
+    input:focus + label ~ .input-group::after {
+      transform: scaleX(1);
+    }
+    .input-group:focus-within::after {
+      transform: scaleX(1);
+    }
+    /* (But to make it consistent, we'll animate with a pseudo element on input-group) */
+    .input-group:focus-within::after {
+      transform: scaleX(1);
+    }
+
+    /* Fix for underline animation */
+    .input-group::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 100%;
+      background: #30d5c8;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .input-group:focus-within::after {
+      transform: scaleX(1);
+    }
+
+    /* Login button */
+    button {
+      background: #30d5c8;
+      color: #121212;
+      font-weight: 700;
+      padding: 14px 0;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 5px 15px #30d5c8cc;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    button:hover {
+      box-shadow: 0 7px 25px #30d5c8ee;
+      transform: scale(1.05);
+    }
+    button:active {
+      transform: scale(0.98);
+      box-shadow: 0 3px 10px #30d5c8bb;
+    }
+    button:disabled {
+      background: #199a8e;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Loading spinner inside button */
+    .spinner {
+      border: 3px solid #30d5c8cc;
+      border-top: 3px solid #121212;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Error message */
+    .error-message {
+      color: #f44336;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: -20px;
+      margin-bottom: 20px;
+      min-height: 20px;
+      user-select: none;
+    }
+
+    /* Footer */
+    .footer {
+      position: fixed;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #555;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 1.5px;
+      user-select: none;
+      z-index: 2;
+    }
+
+  </style>
+</head>
+<body>
+  <main>
+    <div class="login-container" role="main" aria-label="Login form">
+      <div class="company-name">Velora Holdings</div>
+      <form id="loginForm" autocomplete="off" spellcheck="false" novalidate>
+        <div class="input-group">
+          <input type="text" id="username" name="username" required placeholder=" " aria-label="Username" />
+          <label for="username">Username</label>
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" name="password" required placeholder=" " aria-label="Password" />
+          <label for="password">Password</label>
+        </div>
+        <div class="error-message" aria-live="polite" id="errorMessage"></div>
+        <button type="submit" id="loginButton">Login</button>
+      </form>
+    </div>
+  </main>
+  <div class="footer">© 2025 Velora Holdings</div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const loginButton = document.getElementById('loginButton');
+    const errorMessage = document.getElementById('errorMessage');
+
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      errorMessage.textContent = '';
+      loginButton.disabled = true;
+      loginButton.innerHTML = 'Logging in <div class="spinner"></div>';
+
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value;
+
+      // Hardcoded example user — replace this with your real auth logic later
+      const users = {
+        admin: 'admin123',
+        user1: 'password1'
+      };
+
+      setTimeout(() => {
+        if(users[username] && users[username] === password) {
+          // Success — redirect to home page
+          window.location.href = './Home.html';
+        } else {
+          errorMessage.textContent = 'Invalid username or password.';
+          loginButton.disabled = false;
+          loginButton.textContent = 'Login';
+        }
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
