@@ -15,109 +15,110 @@
     margin: 0; padding: 0;
     height: 100%;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(270deg, #1f202c, #24243e, #1f202c, #24243e);
-    background-size: 800% 800%;
-    animation: gradientBG 15s ease infinite;
+    background: linear-gradient(45deg, #121212, #1e1e1e, #2a2a2a, #1e1e1e);
+    background-size: 600% 600%;
+    animation: backgroundShift 20s ease infinite;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  @keyframes gradientBG {
+  @keyframes backgroundShift {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
   }
 
-  .login-container {
-    background: #181820ee;
-    padding: 50px 55px;
-    border-radius: 18px;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
-    width: 380px;
+  .login-box {
+    background: #222228cc;
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+    width: 400px;
     max-width: 90vw;
-    color: #eee;
+    color: #e0e0e0;
     text-align: center;
     user-select: none;
   }
 
-  .company-name {
-    font-weight: 700;
-    font-size: 2.8rem;
-    letter-spacing: 2px;
-    margin-bottom: 25px;
-    color: #72e2ff;
-    text-shadow: 0 0 8px #72e2ff88;
+  .company-title {
+    font-weight: 800;
+    font-size: 2.9rem;
+    letter-spacing: 3px;
+    margin-bottom: 35px;
+    color: #53c0e8;
+    text-shadow: 0 0 10px #53c0e8aa;
+    user-select: text;
   }
 
   form {
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 25px;
   }
 
   label {
     text-align: left;
     font-weight: 600;
-    font-size: 1rem;
-    color: #aad4e7cc;
+    font-size: 1.1rem;
+    color: #9ecce7dd;
     user-select: text;
   }
 
   input[type="text"], input[type="password"] {
-    padding: 14px 20px;
-    border-radius: 12px;
+    padding: 16px 22px;
+    border-radius: 15px;
     border: none;
-    font-size: 1.1rem;
-    background: #2b2b3b;
-    color: #dde6f2;
+    font-size: 1.15rem;
+    background: #2a2a34;
+    color: #d4d9e4;
     outline: none;
-    box-shadow: inset 0 0 8px #00000088;
-    transition: box-shadow 0.35s ease, background-color 0.35s ease;
+    box-shadow: inset 0 0 10px #000000cc;
+    transition: box-shadow 0.4s ease, background-color 0.4s ease;
     font-weight: 500;
   }
 
   input[type="text"]:focus,
   input[type="password"]:focus {
-    background: #39516e;
-    box-shadow: 0 0 12px 2px #72e2ffcc;
+    background: #396e9a;
+    box-shadow: 0 0 16px 2px #53c0e8cc;
   }
 
   button {
-    margin-top: 10px;
-    padding: 16px 0;
-    background: linear-gradient(45deg, #4bcffa, #0c87bf);
+    margin-top: 5px;
+    padding: 18px 0;
+    background: linear-gradient(135deg, #48b3e0, #176ea7);
     border: none;
-    border-radius: 14px;
+    border-radius: 18px;
     font-weight: 700;
-    font-size: 1.3rem;
-    color: #e0f7ff;
+    font-size: 1.4rem;
+    color: #d7f1ff;
     cursor: pointer;
-    box-shadow: 0 5px 18px #33a6f588;
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: 0 7px 25px #2c7bb5cc;
+    transition: all 0.35s cubic-bezier(.25,.8,.25,1);
     user-select: none;
     position: relative;
     overflow: hidden;
   }
 
   button:hover {
-    background: linear-gradient(45deg, #34b0f5, #005f8a);
-    box-shadow: 0 8px 28px #33a6f5aa;
-    transform: translateY(-3px);
+    background: linear-gradient(135deg, #6cbcf4, #2886ce);
+    box-shadow: 0 10px 35px #3a8adaee;
+    transform: translateY(-4px);
   }
   button:active {
-    transform: translateY(1px);
-    box-shadow: 0 3px 14px #1e7abbbb;
+    transform: translateY(1.5px);
+    box-shadow: 0 5px 18px #185e96bb;
   }
 
-  .error {
-    height: 20px;
-    margin-top: -8px;
-    margin-bottom: 5px;
+  .error-message {
+    height: 22px;
+    margin-top: -10px;
+    margin-bottom: 10px;
     color: #ff6b6b;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 600;
-    min-height: 24px;
+    min-height: 22px;
     user-select: none;
   }
 
@@ -125,16 +126,16 @@
 </head>
 <body>
 
-<div class="login-container" role="main" aria-label="Login form">
-  <div class="company-name">Velora Holdings</div>
-  <form id="login-form" autocomplete="off" spellcheck="false" novalidate>
+<div class="login-box" role="main" aria-label="Login form">
+  <div class="company-title">Velora Holdings</div>
+  <form id="loginForm" autocomplete="off" spellcheck="false" novalidate>
     <label for="username">Username</label>
     <input type="text" id="username" name="username" autocomplete="username" required aria-required="true" aria-describedby="error" />
     
     <label for="password">Password</label>
     <input type="password" id="password" name="password" autocomplete="current-password" required aria-required="true" />
     
-    <div id="error" class="error" aria-live="polite"></div>
+    <div id="error" class="error-message" aria-live="polite"></div>
     
     <button type="submit" aria-label="Log in to Velora Holdings">Log In</button>
   </form>
@@ -142,29 +143,28 @@
 
 <script>
   // Preload click sound
-  const clickSound = new Audio('https://assets.codepen.io/3/click.mp3'); // lightweight click sound
+  const clickSound = new Audio('https://assets.codepen.io/3/click.mp3');
 
   const ADMIN_USERNAME = 'admin';
   const ADMIN_PASSWORD = 'admin123';
 
-  const form = document.getElementById('login-form');
+  const form = document.getElementById('loginForm');
   const errorDiv = document.getElementById('error');
 
   form.addEventListener('submit', e => {
     e.preventDefault();
     errorDiv.textContent = '';
-    
+
     const username = form.username.value.trim();
     const password = form.password.value.trim();
 
     if (!username || !password) {
-      errorDiv.textContent = 'Please enter username and password.';
+      errorDiv.textContent = 'Please enter both username and password.';
       return;
     }
 
-    clickSound.play().catch(() => {}); // play click sound, ignore errors on autoplay policy
+    clickSound.play().catch(() => {});
 
-    // Admin login check
     if (username === ADMIN_USERNAME) {
       if (password === ADMIN_PASSWORD) {
         localStorage.setItem('veloraUser', JSON.stringify({ username, role: 'admin' }));
@@ -176,16 +176,8 @@
       return;
     }
 
-    // Check normal users saved in localStorage
-    const users = JSON.parse(localStorage.getItem('veloraUsers') || '{}');
-
-    if (users[username] && users[username].password === password) {
-      localStorage.setItem('veloraUser', JSON.stringify({ username, role: 'user' }));
-      alert('Login successful!');
-      window.location.href = '/Velora/Dashboard/';
-    } else {
-      errorDiv.textContent = 'Invalid username or password.';
-    }
+    // For now just show error on any non-admin login
+    errorDiv.textContent = 'Invalid username or password.';
   });
 </script>
 
