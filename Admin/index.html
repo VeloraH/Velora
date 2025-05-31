@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Velora | Admin</title>
-  <link rel="stylesheet" href="/Velora/assets/style.css">
-</head>
-<body onload="protectPage()">
-  <div class="container">
-    <h2>Admin Panel</h2>
-    <input type="text" id="newUser" placeholder="New Username">
-    <input type="password" id="newPass" placeholder="New Password">
-    <button onclick="createUser(
-      document.getElementById('newUser').value,
-      document.getElementById('newPass').value
-    )">Create User</button>
-    <button onclick="logout()">Log Out</button>
-  </div>
-  <script src="/Velora/assets/script.js"></script>
-</body>
-</html>
-
+<script>
+  const user = localStorage.getItem('veloraUser');
+  if (!user) {
+    // Not logged in, redirect to login
+    window.location.href = '/Velora/Login/';
+  } else {
+    const userObj = JSON.parse(user);
+    // Optional: only allow admin to access Admin page
+    if (window.location.pathname.toLowerCase().includes('/admin') && userObj.role !== 'admin') {
+      alert('Access denied: Admins only');
+      window.location.href = '/Velora/Login/';
+    }
+  }
+</script>
