@@ -1,21 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Velora Holdings - Login</title>
-  <link rel="stylesheet" href="/Velora/assets/style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Velora Holdings - Login</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+  /* Reset and base */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body, html {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background: #121212;
+    overflow: hidden;
+    color: #eee;
+  }
+
+  /* Background animated gradient */
+  body::before {
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(270deg, #2a2a2a, #4a90e2, #2a2a2a);
+    background-size: 600% 600%;
+    animation: gradientShift 15s ease infinite;
+    z-index: -1;
+    filter: brightness(0.5);
+  }
+
+  @keyframes gradientShift {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+  }
+
+  /* Container centering */
+  .login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  /* Form styling */
+  form.login-form {
+    background: rgba(20, 20, 20, 0.85);
+    padding: 3rem 3.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(74, 144, 226, 0.7);
+    width: 100%;
+    max-width: 420px;
+    animation: fadeInScale 0.6s ease forwards;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .login-form h1 {
+    font-weight: 600;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: #4a90e2;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  /* Input fields */
+  .login-form input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.3rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 1.1rem;
+    background: #222;
+    color: #eee;
+    transition: background-color 0.3s ease;
+  }
+
+  .login-form input::placeholder {
+    color: #666;
+  }
+
+  .login-form input:focus {
+    outline: none;
+    background-color: #333;
+    box-shadow: 0 0 8px #4a90e2;
+  }
+
+  /* Submit button */
+  .login-form button {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 12px;
+    border: none;
+    background: #4a90e2;
+    color: white;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+
+  .login-form button:hover {
+    background: #357abd;
+    box-shadow: 0 0 12px #357abd;
+  }
+
+  .login-form button:active {
+    background: #2a5f9e;
+  }
+
+  /* Error message styling */
+  #errorMsg {
+    margin-top: -0.7rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #ff4c4c;
+    display: none;
+    text-align: center;
+  }
+
+  /* Footer text */
+  .footer-text {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    text-align: center;
+    color: #555;
+    user-select: none;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    form.login-form {
+      padding: 2rem 2rem;
+      max-width: 100%;
+      border-radius: 16px;
+    }
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Velora Holdings</h1>
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Username" required autocomplete="off" />
-      <input type="password" id="password" placeholder="Password" required autocomplete="off" />
-      <button type="submit">Login</button>
-    </form>
-    <p id="errorMsg" style="color:#ff4c4c; margin-top:1rem; display:none;"></p>
-  </div>
 
-  <script src="/Velora/assets/script.js"></script>
+<div class="login-container">
+  <form class="login-form" id="loginForm" autocomplete="off">
+    <h1>Velora Holdings</h1>
+    <input type="text" id="username" name="username" placeholder="Username" autocomplete="off" required />
+    <input type="password" id="password" name="password" placeholder="Password" autocomplete="off" required />
+    <div id="errorMsg"></div>
+    <button type="submit">Log In</button>
+  </form>
+</div>
+
+<div class="footer-text">© 2025 Velora Holdings</div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const errorMsg = document.getElementById('errorMsg');
+
+    // Load saved users from localStorage or default users if none exist
+    let users = JSON.parse(localStorage.getItem('veloraUsers'));
+    if (!users) {
+      // default users on first run
+      users = [
+        { username: 'admin', password: 'password123', role: 'admin' },
+        { username: 'user', password: 'userpass', role: 'user' },
+      ];
+      localStorage.setItem('veloraUsers', JSON.stringify(users));
+    }
+
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+      // Save current user to localStorage
+      localStorage.setItem('veloraUser', JSON.stringify(user));
+      // Redirect to Dashboard/Home page
+      window.location.href = '/Velora/Dashboard/';
+    } else {
+      errorMsg.style.display = 'block';
+      errorMsg.textContent = 'Invalid username or password.';
+    }
+  });
+</script>
+
 </body>
 </html>
